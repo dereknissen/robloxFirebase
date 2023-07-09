@@ -1,4 +1,4 @@
-local firebaseHandler = require(game.ServerScriptService.FirebaseHandler)
+local firebaseHandler = require(game.ServerScriptService.firebaseHandler)
 local PlayerService = game:GetService('Players')
 
 function makePlayerFolder(player)
