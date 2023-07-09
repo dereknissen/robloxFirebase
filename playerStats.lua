@@ -17,7 +17,6 @@ function makePlayerFolder(player)
 	local inventory = Instance.new("StringValue", folder)
 	inventory.Name = "inventory"
 
-
 	local cred = Instance.new("NumberValue", folder)
 	cred.Name = "cred"
 	
@@ -41,7 +40,7 @@ function makePlayerFolder(player)
 	
 	local jailTime = Instance.new("NumberValue", folder)
 	jailTime.Name = "jailTime"
-	
+
 	local safe = Instance.new("StringValue", folder)
 	safe.Name = 'safe'
 
@@ -51,7 +50,7 @@ end
 function playerJoined(player)
 	makePlayerFolder(player)
 
-	-- LOAD DATA
+	-- IMPORT DATA FROM FIREBASE TO PHYSICAL GAME DATA WHEN THE PLAYER JOINS THE GAME
 	local data = firebaseHandler.returnPlayerData(player.UserId)
 	if data ~= "no data" then
 		player.leaderstats.fname.Value = data["fname"]
@@ -83,6 +82,7 @@ function playerJoined(player)
 			player.leaderstats.inventory.Value = data["inventory"]
 			player.leaderstats.safe.Value = data["safe"] or ""
 		else
+			-- DEFAULT DATA FOR NEW PLAYERS
 			player.leaderstats.gang.Value = "Unaffiliated"
 			player.leaderstats.money.Value = 500
 			player.leaderstats.cred.Value = 0
@@ -94,8 +94,6 @@ function playerJoined(player)
 			player.leaderstats.inventory.value = ""
 			player.leaderstats.safe.Value = ""
 		end
-		-- DEFAULTS
-
 	end
 	
 	player.CharacterRemoving:Connect(function(character)
@@ -132,7 +130,7 @@ function playerLeaving(player)
 		local backpackString = joinTable(playerBackpack, ';')
 		
 		local dataFolder = player.leaderstats:Clone()
-		firebaseHandler.postPlayerData(player.UserId, dataFolder, backpackString)
+		firebaseHandler.postPlayerData(player.UserId, dataFolder, backpackString) -- POST THE DATA TO FIREBASE
 	end
 end
 
